@@ -1,0 +1,80 @@
+  \documentclass[a4paper,10pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage[colorlinks]{hyperref}
+
+\newtheorem{prop}{Proposition}
+\newtheorem{defi}{Definition}
+\newtheorem{theo}{Theorem}
+\newtheorem{lem}{Lemma}
+\title{SPQT Lecture : Regenerative Processes}
+\author{Prof. Parimal Parag}
+
+\begin{document}
+\maketitle
+\section{Renewal Theory Contd. }
+
+\subsection{Example:}
+Suppose people come to a bus station with iid inter arrival times with distribution $F$. There is a fixed cost $C$ per unit time associated with each customer. Let the cost of dispatch be $K$. We are interested in finding the  total cost per time $\frac{\int_{0}^{t}C_s ds}{t}$ as $t \rightarrow \infty$. Observe that
+
+\begin{flalign*}
+&\mathbb{E}[\text{Length of the renewal cycle}]= N\mu.\\
+&\mathbb{E}[\text{Cost per cycle}]=\mathbb{E}[CX_1+2CX_2+\hdots (N-1)CX_N]+K=C\mu \frac{N(N-1)}{2}+K.
+\end{flalign*} 
+
+Hence by Renewal Reward Theorem (RRT), 
+\begin{flalign*}
+\lim_{t \rightarrow \infty}=\frac{\int_{0}^{t}C_sds}{t}= \frac{C\mu N(N-1)+2K}{2N\mu}=\frac{C\mu (N-1)}{2}+\frac{K}{N\mu}.
+\end{flalign*}
+
+The cost function could be the age $A(t)$ at time $t$, the excess time at time $t$ or the length of the current renewal interval $X_{N(t)+1}$. In each of these case we can find $\lim_{t \rightarrow \infty}\frac{R(t)}{t}$ for the corresponding $t$. 
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\frac{\int_{0}^{t}A(s) ds}{t}&=\frac{\mathbb{E}[\text{Age of the cycle}]}{\mathbb{E}[\text{Length of the cycle}]}=\frac{\mathbb{E}[\int_{0}^{X}sds]}{\mathbb{E}[X]}= \frac{\mathbb{E}[X^2]}{2\mathbb{E}[X]}.
+\end{flalign*}
+
+Similarly, we can obtain, 
+
+\begin{flalign*}
+\lim_{t \rightarrow \infty}\frac{\int_{0}^{t}Y(s) ds}{t}&=\frac{\mathbb{E}[\text{Residual life time of the cycle}]}{\mathbb{E}[\text{Length of the cycle}]}=\frac{\mathbb{E}[\int_{0}^{X}(X-s)ds]}{\mathbb{E}[X]}= \frac{\mathbb{E}[X^2]}{2\mathbb{E}[X]}.
+\end{flalign*}
+ Since $X_{N(t)+1}=A(t)+Y(t)$, we have $\lim_{t \rightarrow \infty}\frac{\int_{0}^{t}X_{N(s)+1} ds}{t}$, $\frac{\mathbb{E}[X^2]}{\mathbb{E}[X]} \stackrel{(a)}{\geq}\mathbb{E}[X].$ where $(a)$ follows from Cauchy-Schwartz inequality.
+ 
+ \subsection{Example: Queueing Application}
+ \subsubsection{Single Server Queueing Stations}
+ Let $X_n$ denote iid inter arrival time between $(n-1)\text{th}$ and $n^\text{th}$ customer. Let $Y_n$ denote the service time for $n^\text{th}$ customer. $\mathbb{E}[Y_i]<\mathbb{E}[X_i]<\infty$. There is a renewal process happening in the system. Renewal instants are the times at which a customer finds the queue empty. $n(s)=\#$ of customers at time $s$.\\
+ \begin{flalign*}
+ L= \lim_{t \rightarrow \infty} \frac{\int_{0}^{t}n(s) ds}{t} = \frac{\mathbb{E}[\int_{0}^{T}n(s)ds]}{\mathbb{E}[T]}.
+ \end{flalign*} 
+The limit exists $a.s$ from renewal reward theorem. Let $T$ denote the renewal time and $W_i$ time $i^\text{th}$ customer spends in the queue. The only assumption we are making is the queue is work conserving. We can view the whole system as a discrete system so as to find the asymptotic mean waiting time.
+
+\begin{flalign*}
+W=\lim_{n \rightarrow \infty }\frac{\sum_{i=1}^{n}W_i}{n}= \frac{\sum_{i=1}^{N}W_i}{\mathbb{N}}.                                                                                                                                                                                                                                                                                                                                             
+\end{flalign*} 
+\begin{theo}
+If $\lambda =\frac{1}{\mathbb{E}[X_i]},~ L =\lambda W$
+\end{theo}
+
+\begin{proof}
+Total length of renewal cycle, $T=\sum_{i=1}^{N}X_i$. Observe that $\{N=n\} \Leftrightarrow \{\sum_{i=1}^{k}X_i <\sum_{i=1}^{k}Y_i,~k=1,2 \hdots \text{and} \sum_{i=1}^{n}X_i >\sum_{i=1}^{n}Y_i \} $.. By Wald's equation $\mathbb{E}[T]=\mathbb{E}[N]\mathbb{E}[X_1]$.
+\begin{flalign*}
+L&=\frac{\mathbb{E}[\int_{0}^{T}n(s)ds]}{\mathbb{E}[T]}= \frac{\lambda \mathbb{E}[\int_{0}^{T}n(s)ds]}{\mathbb{E}[N]}\\
+&=\frac{\lambda W \mathbb{E}[\int_{0}^{T}n(s)ds]}{\mathbb{E}[\sum_{i=1}^N W_i]}=\lambda W.\\
+\end{flalign*}
+\end{proof}
+\subsection{Regenerative Processes}
+Stochastic process $\{X_t,~t \geq 0\}$ with state space $\mathbb{N}_0$ with the property that the process restarts itself probabilistically is called a regenerative process. \\
+If $\{S_1,S_2 \hdots \}$ are renewal instants, then the process beyond $S_1$ is a stochastic replica of the whole process at 0. \\
+$N(t)=\max\{n \in \mathbb{N}:S_n \leq t \}\}$= $\#$ of cycles till time $t$.
+\begin{theo}
+If $S_n \sim F$ has density over some interval, and if $\mathbb{E}[S_1]< \infty$, then,
+\begin{flalign*}
+P_j = \lim_{t \rightarrow \infty } P(X(t)=j)=\frac{\mathbb{E}[\text{Amount of time during cycle}]}{\mathbb{E}[\text{Length of renewal cycle}]}.
+\end{flalign*}
+\end{theo} 
+\begin{prop}
+For a regenerative process with $\mathbb{E}[S_1] < \infty$,
+\begin{flalign*}
+\lim_{t \rightarrow \infty} \frac{\text{Amount of time spent in state}~ j~ \text{during} ~[0,t]}{t}=P_j ~a.s 
+\end{flalign*}
+\end{prop}
+\end{document}

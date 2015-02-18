@@ -1,0 +1,79 @@
+\documentclass[addpoints,12pt]{exam}
+\usepackage{amsfonts,amsmath}
+%\begin{center}
+%\fbox{\fbox{\parbox{5.5in}{\centering 
+%Answer the questions in the spaces provided on the
+%question sheets. If you run out of room for an answer,
+%continue on the back of the page.}}}
+%\end{center}
+\begin{document}
+\vspace{0.1in}
+\makebox[\textwidth]{Name:\enspace\hrulefill}
+%\vspace{0.2in}
+%\makebox[\textwidth]{Instructor’s name:\enspace\hrulefill}
+
+%%\usepackage{mathexam}
+%\paper{E2 204}               % <- do not include FC, FT etc
+%%\version{0}                     % <- only needed for multiple choice exams
+%\title{Stochastic Processes and Queueing Theory}
+%\time{two}                      % <- number of hours: default is three
+%\semester{Spring}
+%\year{2015}                     % <- default is the current year
+%\campus{Bangalore}
+%\note{Answer {\bf All} questions.  The questions in Section A
+%(multiple choice questions) are worth 1 mark each: the marks for each
+%question in Section B are as shown.  Section A is worth a total of 20
+%marks and Section B is worth a total of 40 marks: you are advised to
+%spend about one hour on Section A and two hours on Section B.\\ Answer
+%Section A (multiple choice questions) on the coloured answer sheet
+%provided.}
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{E2 204}{First Exam}{February 16, 2015}
+\runningheader{E2 204}
+{First Exam, Page \thepage\ of \numpages}
+{February 16, 2015}
+\firstpagefooter{}{}{}
+\runningfooter{}{}{}
+
+\begin{questions}
+\question Consider a bus stop, where buses arrive as a Poisson process with rate $\lambda$
+    \begin{parts}
+    \part[2] Find the distribution of waiting time for a bus at time $t$ when the buses have been running for an arbitrarily long time.
+    \part[3] Let the inter-arrival time of customers be i.i.d. with exponential distribution of mean $1/\mu$. In addition, let's assume that on arrival of a bus, it takes away all the waiting customers at that time. Find the mean waiting time of the customers in this case.
+		\part[4] Let each bus have a limited space that is i.i.d. with distribution $F$. Find the conditions for the existence of stationary distribution of the waiting time. Justify each step. 
+    \end{parts}
+    
+    \textbf{Solution:}
+\begin{parts}
+\part Waiting time at any time $t$ is the time at which the next renewal happens starting from time $t$, i.e. $Y(t)=S_{N(t)+1}-t$. Since it's a Poisson process, $P(Y(t) >x)=P(\text{No renewals in}~[t, t+x])$, which by stationary increment property is\\
+ $P(\text{No renewals in}~[0, x]))=e^{-\lambda x}$. Since the expression is independent of $t$, the limiting distribution is exponential with parameter $\lambda$.  
+ \part Since the arriving bus takes away all waiting customers, the customers will not have to wait more than a renewal period of bus arrival process. Since the arrival process of buses is a Poisson process with rate $\lambda$, from the memoryless property of the exponential distribution, each customer will have a mean waiting time of $\frac{1}{\lambda}$.   
+ \part \textbf{Kindly check. We can directly deduce the condition for the existence of stationary distribution by viewing the problem as a queueing problem with Poisson arrival and batch service with service times exponentially distributed by using CTMC results. But that has not been taught}. Let $N(t)$ denote the number of customers waiting at the station at any time $t$. Further let $N_c(t)$ and $N_b(t)$ denote respectively the customer arrival process and bus arrival process both being Poisson. Further, $X_{bi}$ and $X_{ci}$ denote the inter arrival time of bus and customers respectively. Let $N_{bi}$ be the capacity of the $i^{\text{th}}$ bus arriving. Then, $N(t)=\max\{0,N_c(t)-\sum_{i=1}^{N_{b}(t)}N_{bi}\}$. Let $\tau(t) \equiv \inf \{k \geq 1: \sum_{i=1}^{k} N_{bi} \geq N(t)+1\}$. Then the waiting time of a customer arriving at time $t$ is $Y_b(t)+\sum_{i=1}^{\tau(t)}X_{bi}$. $Y_{b}(t)$ is exponential $\lambda$ as it is the excess time of a Poisson process with rate $\lambda$. So the existence of stationary distribution of depends on the existence of the stationary distribution of $\tau(t)$. $\tau(t)$ will have a stationary distribution if $N(t)$ does not converge to $\infty$ almost surely. We know that $\frac{N_c(t)}{t} \rightarrow \mu$,  $\frac{N_b(t)}{t} \rightarrow \lambda$ and $\frac{1}{N_{b}(t)}\sum_{i=1}^{N_{b}(t)}N_{bi} \rightarrow \mathbb{E}[N_{b1}]=\int xdF(x)$. Thus if $\mu <\lambda \mathbb{E}[N_{b1}]$, $N(t)$ converges to a finite quantity almost surely and hence gives the condition for the existence of stationary distribution.
+\end{parts}
+\question On each bet a gambler, independently of the past, either wins or loses $1$ unit with respective probabilities $p$ and $1-p$. Suppose the gambler's strategy is to quit playing the first time she wins $k$ consecutive bets. At the moment she quits
+  \begin{parts}
+  \part[2] find her expected winnings,
+  \part[1] find the expected number of bets that she has won.
+  \end{parts}
+  \textbf{Solution:}
+  \begin{parts}
+  \part Expected winnings: Let $X_i$ be iid random variables with $P(X_i=+1)=p=1-P(X_i=-1)$. Let $N$ denote the first time the gambler gets $k$ consecutive heads. Observe that $N$ is a stopping time with respect to $X_i$ sequence. From delayed renewal process theory $\mathbb{E}[N]=\sum_{i=1}^{k}p^{-i} = \frac{1-p^{-k}}{1-p^{-1}}$. Then solution to part a) is $\mathbb{E}[\sum_{i=1}^{N}X_i]$ which by Wald's equation is equal to $\mathbb{E}[N]\mathbb{E}[X_i]=\frac{1-p^{-k}}{1-p^{-1}} (2p-1)$. If we re denote $X_i$s  iid random variables with $P(X_i=1)=p=1-P(X_i=0)$, solution to part b) is given by $\mathbb{E}[N]\mathbb{E}[X_i]=\frac{1-p^{-k}}{1-p^{-1}} (p)$. 
+  \end{parts}
+\question Let $\{X_n, n \in \mathbb{N}\}$ b a non-negative i.i.d. sequence with distribution $F$. Let $\{N(t), t \ge 0\}$ be the corresponding renewal process. Let $Y(t)$ and $A(t)$ be excess and age processes respectively.
+  \begin{parts}
+  \part[4] Show that $\lim_{t\to \infty} \Pr(A(t) > x, Y(t) > y) = \frac{1}{E[X_1]}\int_{x+y}^{\infty}\Pr(X_1 > t)dt$.
+  \part[5] Use (a) to show that if for all $t,x,y \ge 0$, 
+	\begin{equation*}
+	\Pr(A(t) > x, Y(t) > y) = \Pr(A(t) > x)\Pr(Y(t) > y),
+	\end{equation*}
+	then $\{N(t), t\ge 0\}$ is a Poisson process.
+  \end{parts}
+\question For a renewal reward process 
+	\begin{parts}
+	\part[3] Find the limit $\lim_{t \to \infty}\mathbb{E}[R_{N(t)+1}]$.
+	\part[1] Use (a) to find the following limit $\lim_{t \to \infty}\mathbb{E}[X_{N(t)+1}]$.
+	\end{parts}
+\end{questions}
+\end{document} 
